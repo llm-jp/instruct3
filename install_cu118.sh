@@ -9,7 +9,14 @@ pip install setuptools==69.5.1
 pip install packaging
 pip install torch==2.4.0 --index-url https://download.pytorch.org/whl/cu118
 pip install -r requirements_cu118.txt
-pip install git+https://github.com/NVIDIA/NeMo.git@0504c927afe61ddd40ade18f8553d0f52a65f509
+
+# nemo install
+git clone https://github.com/NVIDIA/NeMo.git
+cd NeMo
+git checkout 0504c927afe61ddd40ade18f8553d0f52a65f509
+git apply ../NeMo_v2.1.0rc0.patch
+pip install -e .
+cd ../
 
 # apex install
 git clone https://github.com/NVIDIA/apex.git

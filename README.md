@@ -8,64 +8,6 @@ This repository contains the scripts for the supervised fine-tuning and direct p
 
 See `install_cu118.sh` for CUDA 11.8 and `install_cu12.1.sh` for CUDA 12.1.
 
-After installing, you need to modify the following code directly.
-
-Path to the script: `.venv/lib/python3.10/site-packages/nemo/collections/nlp/parts/nlp_overrides.py`
-
-Before:
-```python
-def save_checkpoint(
-    self, checkpoint: Dict[str, Any], filepath: Union[str, Path], storage_options: Optional[Any] = None
-) -> None:
-    app_state = AppState()
-    """ PTL method which we override to accomodate distributed checkpoints and
-        the legacy model parallel checkpoints.
-
-        When using megatron core, the distributed checkpointing library expects save functions to be
-        called on every rank and internally does the rank checking.
-    """
-    # check if using distributed checkpointing
-    if self.use_distributed_checkpointing:
-        assert (
-           len(checkpoint['optimizer_states']) == 1
-        ), "Currently only support checkpointing 1 distributed optimizer per time!"
-        # converts the optimizer states to their sharded equivalents
-        sharded_optim_state = self.optimizer_sharded_state_dict(
-            unsharded_optim_state=checkpoint['optimizer_states'][0]
-        )
-
-        # Check whether to save optim states
-        include_optimizer = True if not storage_options else storage_options.get('include_optimizer', True)
-```
-
-After:
-```python
-def save_checkpoint(
-    self, checkpoint: Dict[str, Any], filepath: Union[str, Path], storage_options: Optional[Any] = None
-) -> None:
-    app_state = AppState()
-    """ PTL method which we override to accomodate distributed checkpoints and
-        the legacy model parallel checkpoints.
-
-        When using megatron core, the distributed checkpointing library expects save functions to be
-        called on every rank and internally does the rank checking.
-    """
-    # check if using distributed checkpointing
-    if self.use_distributed_checkpointing:
-        # assert (
-        #    len(checkpoint['optimizer_states']) == 1
-        # ), "Currently only support checkpointing 1 distributed optimizer per time!"
-        ## converts the optimizer states to their sharded equivalents
-        #sharded_optim_state = self.optimizer_sharded_state_dict(
-        #    unsharded_optim_state=checkpoint['optimizer_states'][0]
-        #)
-
-        # Check whether to save optim states
-        # include_optimizer = True if not storage_options else storage_options.get('include_optimizer', True)
-        include_optimizer = False
-```
-This manual modification is necessary to avoid bugs in the current installation, but it may be resolved in the future.
-
 ### Prepare Data
 
 Run the following command to download and preprocess the data (about 4GB in total).

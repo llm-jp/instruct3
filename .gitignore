@@ -119,6 +119,7 @@ log
 ac_outputs/
 
 # dependncies
+NeMo/
 apex/
 flash-attention/
 
