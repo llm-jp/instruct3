@@ -49,6 +49,8 @@ sbatch scripts/ckpt/convert_llama_hf_to_nemo.sh llm-jp/llm-jp-3-3.7b /path/to/ch
 sbatch scripts/ckpt/convert_llama_hf_to_nemo.sh llm-jp/llm-jp-3-7.2b /path/to/checkpoints/hf-to-nemo/llm-jp--llm-jp-3-7.2b ./megatron_configs/llm-jp-3-7.2b.yaml
 # convert llm-jp-3-13b
 sbatch scripts/ckpt/convert_llama_hf_to_nemo.sh llm-jp/llm-jp-3-13b /path/to/checkpoints/hf-to-nemo/llm-jp--llm-jp-3-13b ./megatron_configs/llm-jp-3-13b.yaml
+# convert llm-jp-3-172b
+sbatch scripts/ckpt/convert_llama_hf_to_nemo.sh llm-jp/llm-jp-3-172b /path/to/checkpoints/hf-to-nemo/llm-jp--llm-jp-3-172b ./megatron_configs/llm-jp-3-172b.yaml
 ```
 
 ### Nemo -> Hugging Face
