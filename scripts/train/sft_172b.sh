@@ -49,6 +49,7 @@ mpirun -np $NUM_GPUS \
   use_mpi=True \
   use_slurm=True \
   name=${NAME} \
+  trainer.sft.max_epochs=1 \
   mbs=1 \
   lr=0.00001 \
   min_lr=0.000001 \
